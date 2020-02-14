@@ -15,8 +15,43 @@ class App extends Component {
         };
     }
 
-    setBeltIndex = (i) => {
-        this.setState({belt: i});
+    setBeltIndex = (i) => { this.setState({belt: i}); }
+    setBootIndex = (i) => { this.setState({boots: i}); }
+
+    gearRow = (slot, gear, picker, i) => {
+        return(
+            <tr>
+                <td><Picker slot={slot} gear={gear} callback={picker}/></td>
+                <td>{gear[i].name}</td>
+                <td>{gear[i].base.strength}</td>
+                <td>{gear[i].base.agility}</td>
+                <td>{gear[i].base.intellect}</td>
+                <td>{gear[i].base.stamina}</td>
+                <td>{gear[i].base.spirit}</td>
+                <td>{gear[i].attack.hit}</td>
+                <td>{gear[i].attack.crit}</td>
+                <td>{gear[i].attack.map}</td>
+                <td>{gear[i].attack.rap}</td>
+                <td>{gear[i].caster.spellpower}</td>
+                <td>{gear[i].caster.healing}</td>
+                <td>{gear[i].caster.spellcrit}</td>
+                <td>{gear[i].caster.mp5}</td>
+                <td>{gear[i].caster.spellpen}</td>
+                <td>{gear[i].resistance.fire}</td>
+                <td>{gear[i].resistance.frost}</td>
+                <td>{gear[i].resistance.arcane}</td>
+                <td>{gear[i].resistance.nature}</td>
+                <td>{gear[i].resistance.shadow}</td>
+                <td>{gear[i].defense.armor}</td>
+                <td>{gear[i].defense.defense}</td>
+                <td>{gear[i].defense.block}</td>
+                <td>{gear[i].defense.dodge}</td>
+                <td>{gear[i].defense.parry}</td>
+                <td>{gear[i].weapon.dmgmin}</td>
+                <td>{gear[i].weapon.dmgmax}</td>
+                <td>{gear[i].weapon.speed}</td>
+            </tr>
+        );
     }
 
     render() {
@@ -65,15 +100,10 @@ class App extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><Picker slot="Belt" gear={Belts}
-                                callback={this.setBeltIndex}/></td>
-                            <td>{Belts[this.state.belt].name}</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>11</td>
-                        </tr>
+                       {this.gearRow("Belt", Belts, this.setBeltIndex,
+                           this.state.belt)}
+                       {this.gearRow("Boots", Boots, this.setBootIndex,
+                           this.state.boots)}
                     </tbody>
                 </Table>
             </div>

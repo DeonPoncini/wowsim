@@ -26,12 +26,13 @@ class Picker extends Component {
         const rows = []
         for (let i = 0; i < this.props.gear.length; i++) {
             rows.push(
+                <div>
                 <Button key={i} onClick={() => {
                     this.props.callback(i);
                     this.handleClose();
                 }}>
                 {this.props.gear[i].name}
-            </Button>);
+            </Button><br /></div>);
         }
         return(
             <div className="Picker">

@@ -24,7 +24,7 @@ var ResistanceZero  = new Resistances(0, 0, 0, 0, 0);
 var DefenseZero  = new DefenseStats(0, 0, 0, 0, 0);
 var WeaponZero  = new WeaponStats(0, 0, 0);
 
-var Item = makeStruct("name base attack caster resistance defense");
+var Item = makeStruct("name base attack caster resistance defense weapon");
 var NoneItem = new Item("None", BaseZero, AttackZero, CasterZero,
     ResistanceZero, DefenseZero, WeaponZero);
 
@@ -53,11 +53,13 @@ export var Boots = [
         AttackZero,
         CasterZero,
         new Resistances(0, 0, 0, 0, 7),
-        new DefenseStats(290, 0, 0, 0, 0)),
+        new DefenseStats(290, 0, 0, 0, 0),
+        WeaponZero),
     new Item("Dragonstalker's Greaves",
         new BaseStats(0, 30, 6, 15, 6),
         AttackZero,
         CasterZero,
         new Resistances(10, 0, 0, 0, 0),
-        new DefenseStats(332, 0, 0, 0, 0)),
+        new DefenseStats(332, 0, 0, 0, 0),
+        WeaponZero),
 ];
