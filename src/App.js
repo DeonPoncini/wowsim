@@ -1,63 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Modal, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import './App.css';
 import {Belts, Boots} from './gear.js';
-
-class Picker extends Component {
-    constructor(props) {
-        super(props);
-        console.log(this.props.gear);
-        this.state = {
-            show: false,
-        };
-    }
-
-    setShow = (s) => {
-        this.setState({show: s});
-    }
-
-    handleShow = () => {
-        this.setShow(true);
-    }
-
-    handleClose = () => {
-        this.setShow(false);
-    }
-
-    render() {
-        const rows = []
-        for (let i = 0; i < this.props.gear.length; i++) {
-            rows.push(
-                <Button key={i} onClick={() => {
-                    this.props.callback(i);
-                    this.handleClose();
-                }}>
-                {this.props.gear[i].name}
-            </Button>);
-        }
-        return(
-            <div className="Picker">
-                <Button variant="primary" onClick={this.handleShow}>
-                    {this.props.slot}
-                </Button>
-
-                <Modal show={this.state.show} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        {this.props.slot}
-                    </Modal.Header>
-                    <Modal.Body>
-                        {rows}
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={this.handleClose}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        );
-    }
-}
+import Picker from './Picker';
 
 class App extends Component {
 
@@ -71,9 +16,6 @@ class App extends Component {
     }
 
     setBeltIndex = (i) => {
-        console.log(i);
-        console.log(this.state.belt);
-        console.log(Belts);
         this.setState({belt: i});
     }
 
@@ -83,12 +25,43 @@ class App extends Component {
                 <Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th>Slot</th>
-                            <th>Item</th>
+                            <th rowspan="2">Slot</th>
+                            <th rowspan="2">Item</th>
+                            <th colspan="5">Base Stats</th>
+                            <th colspan="4">Attack Stats</th>
+                            <th colspan="5">Caster Stats</th>
+                            <th colspan="5">Resistances</th>
+                            <th colspan="5">Defense Stats</th>
+                            <th colspan="3">Weapon Stats</th>
+                        </tr>
+                        <tr>
+                            <th>Strength</th>
+                            <th>Agility</th>
+                            <th>Intellect</th>
+                            <th>Stamina</th>
+                            <th>Spirit</th>
                             <th>Hit %</th>
                             <th>Crit %</th>
-                            <th>AP</th>
-                            <th>Agility</th>
+                            <th>Melee AP</th>
+                            <th>Ranged AP</th>
+                            <th>Spell Power</th>
+                            <th>Healing</th>
+                            <th>Spell Crit</th>
+                            <th>MP5</th>
+                            <th>Spell Pen</th>
+                            <th>Fire</th>
+                            <th>Frost</th>
+                            <th>Arcane</th>
+                            <th>Nature</th>
+                            <th>Shadow</th>
+                            <th>Armor</th>
+                            <th>Defense</th>
+                            <th>Block</th>
+                            <th>Dodge</th>
+                            <th>Parry</th>
+                            <th>Min Damage</th>
+                            <th>Max Damage</th>
+                            <th>Speed</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,14 +73,6 @@ class App extends Component {
                             <td>1</td>
                             <td>0</td>
                             <td>11</td>
-                        </tr>
-                        <tr>
-                            <td>Head Enchant</td>
-                            <td>Lesser Arcanum of Voracity</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>8</td>
                         </tr>
                     </tbody>
                 </Table>
