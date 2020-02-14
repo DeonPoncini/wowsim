@@ -26,8 +26,14 @@ class Picker extends Component {
 
     render() {
         const rows = []
-        for (var i = 0; i < this.props.gear.length; i++) {
-            rows.push(<li key={i}>{this.props.gear[i].name}</li>);
+        for (let i = 0; i < this.props.gear.length; i++) {
+            rows.push(
+                <Button key={i} onClick={() => {
+                    this.props.callback(i);
+                    this.handleClose();
+                }}>
+                {this.props.gear[i].name}
+            </Button>);
         }
         return(
             <div className="Picker">
@@ -40,7 +46,7 @@ class Picker extends Component {
                         {this.props.slot}
                     </Modal.Header>
                     <Modal.Body>
-                        <ul> {rows} </ul>
+                        {rows}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={this.handleClose}>
@@ -59,11 +65,16 @@ class App extends Component {
         super(props);
 
         this.state = {
-            selected: {
-                belt: 0,
-                boots: 0,
-            },
+            belt: 0,
+            boots: 0,
         };
+    }
+
+    setBeltIndex = (i) => {
+        console.log(i);
+        console.log(this.state.belt);
+        console.log(Belts);
+        this.setState({belt: i});
     }
 
     render() {
@@ -82,8 +93,9 @@ class App extends Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><Picker slot="Belt" gear={Belts} /></td>
-                            <td>Giantstalker's Helmet</td>
+                            <td><Picker slot="Belt" gear={Belts}
+                                callback={this.setBeltIndex}/></td>
+                            <td>{Belts[this.state.belt].name}</td>
                             <td>0</td>
                             <td>1</td>
                             <td>0</td>
