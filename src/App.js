@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import './App.css';
 import {Helms, HelmEnchants} from './gear/helms.js';
+import {Neck} from './gear/neck.js';
 import {Belts} from './gear/belts.js';
 import {Boots} from './gear/boots.js';
 import Picker from './Picker';
@@ -14,6 +15,7 @@ class App extends Component {
         this.state = {
             helm: 0,
             helmenchant: 0,
+            neck: 0,
             belt: 0,
             boots: 0,
         };
@@ -21,6 +23,7 @@ class App extends Component {
 
     setHelmIndex = (i) => { this.setState({helm: i}); }
     setHelmEnchantIndex = (i) => { this.setState({helmenchant: i}); }
+    setNeckIndex = (i) => { this.setState({neck: i}); }
     setBeltIndex = (i) => { this.setState({belt: i}); }
     setBootIndex = (i) => { this.setState({boots: i}); }
 
@@ -110,6 +113,8 @@ class App extends Component {
                            this.state.helm)}
                        {this.gearRow("Enchant", HelmEnchants,
                            this.setHelmEnchantIndex, this.state.helmenchant)}
+                       {this.gearRow("Neck", Neck, this.setNeckIndex,
+                           this.state.neck)}
                        {this.gearRow("Belt", Belts, this.setBeltIndex,
                            this.state.belt)}
                        {this.gearRow("Boots", Boots, this.setBootIndex,
