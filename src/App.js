@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import './App.css';
+import {Helms, HelmEnchants} from './gear/helms.js';
 import {Belts} from './gear/belts.js';
 import {Boots} from './gear/boots.js';
 import Picker from './Picker';
@@ -11,11 +12,15 @@ class App extends Component {
         super(props);
 
         this.state = {
+            helm: 0,
+            helmenchant: 0,
             belt: 0,
             boots: 0,
         };
     }
 
+    setHelmIndex = (i) => { this.setState({helm: i}); }
+    setHelmEnchantIndex = (i) => { this.setState({helmenchant: i}); }
     setBeltIndex = (i) => { this.setState({belt: i}); }
     setBootIndex = (i) => { this.setState({boots: i}); }
 
@@ -101,6 +106,10 @@ class App extends Component {
                         </tr>
                     </thead>
                     <tbody>
+                       {this.gearRow("Helm", Helms, this.setHelmIndex,
+                           this.state.helm)}
+                       {this.gearRow("Enchant", HelmEnchants,
+                           this.setHelmEnchantIndex, this.state.helmenchant)}
                        {this.gearRow("Belt", Belts, this.setBeltIndex,
                            this.state.belt)}
                        {this.gearRow("Boots", Boots, this.setBootIndex,
