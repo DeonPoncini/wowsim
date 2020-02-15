@@ -1,0 +1,26 @@
+import * as gear from './gear'
+
+export const Weapons = [
+    gear.NoneItem,
+    new gear.Item("Barbarous Blade",
+        gear.BaseZero,
+        new gear.AttackStats(0, 1, 60, 60),
+        gear.CasterZero,
+        gear.ResistanceZero,
+        gear.DefenseZero,
+        new gear.WeaponStats(138, 270, 3.2, true)),
+    new gear.Item("Brutality Blade",
+        new gear.BaseStats(9, 9, 0, 0, 0),
+        new gear.AttackStats(0, 1, 0, 0),
+        gear.CasterZero,
+        gear.ResistanceZero,
+        gear.DefenseZero,
+        new gear.WeaponStats(90, 168, 2.5, false)),
+    new gear.Item("Core Hound Tooth",
+        new gear.BaseStats(0, 0, 0, 9, 0),
+        new gear.AttackStats(0, 1, 20, 20),
+        gear.CasterZero,
+        gear.ResistanceZero,
+        gear.DefenseZero,
+        new gear.WeaponStats(57, 107, 1.6, false)),
+];

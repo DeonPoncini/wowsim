@@ -3,6 +3,11 @@ import { Table } from 'react-bootstrap';
 import './App.css';
 import {Helms, HelmEnchants} from './gear/helms.js';
 import {Neck} from './gear/neck.js';
+import {Shoulders, ShoulderEnchants} from './gear/shoulders.js';
+import {Back, BackEnchants} from './gear/back.js';
+import {Chest, ChestEnchants} from './gear/chest.js';
+import {Wrists, WristEnchants} from './gear/wrists.js';
+import {Weapons} from './gear/weapons.js';
 import {Belts} from './gear/belts.js';
 import {Boots} from './gear/boots.js';
 import Picker from './Picker';
@@ -16,6 +21,16 @@ class App extends Component {
             helm: 0,
             helmenchant: 0,
             neck: 0,
+            shoulders: 0,
+            shoulderenchant: 0,
+            back: 0,
+            backenchant: 0,
+            chest: 0,
+            chestenchant: 0,
+            wrists: 0,
+            wristenchant: 0,
+            mainhand: 0,
+            offhand: 0,
             belt: 0,
             boots: 0,
         };
@@ -24,8 +39,40 @@ class App extends Component {
     setHelmIndex = (i) => { this.setState({helm: i}); }
     setHelmEnchantIndex = (i) => { this.setState({helmenchant: i}); }
     setNeckIndex = (i) => { this.setState({neck: i}); }
+    setShouldersIndex = (i) => { this.setState({shoulders: i}); }
+    setShoulderEnchantIndex = (i) => { this.setState({shoulderenchant: i}); }
+    setBackIndex = (i) => { this.setState({back: i}); }
+    setBackEnchantIndex = (i) => { this.setState({backenchant: i}); }
+    setChestIndex = (i) => { this.setState({chest: i}); }
+    setChestEnchantIndex = (i) => { this.setState({chestenchant: i}); }
+    setWristsIndex = (i) => { this.setState({wrists: i}); }
+    setWristEnchantIndex = (i) => { this.setState({wristenchant: i}); }
     setBeltIndex = (i) => { this.setState({belt: i}); }
     setBootIndex = (i) => { this.setState({boots: i}); }
+
+    setMainHandIndex = (i) => {
+        // remove off hand for 2H
+        if (Weapons[i].weapon.twoh) {
+            this.setState( {mainhand: i, offhand: 0});
+        } else {
+            this.setState( {mainhand: i});
+        }
+    }
+
+    setOffHandIndex = (i) => {
+        // check if off hand is selecting 2h
+        if (Weapons[i].weapon.twoh) {
+            this.setState( {mainhand: i, offhand: 0});
+        } else {
+            // check if main hand is 2H
+            if (Weapons[this.state.mainhand].weapon.twoh) {
+                // unequip it
+                this.setState( {mainhand: 0, offhand: i});
+            } else {
+                this.setState( {offhand: i});
+            }
+        }
+    }
 
     gearRow = (slot, gear, picker, i) => {
         return(
@@ -115,6 +162,26 @@ class App extends Component {
                            this.setHelmEnchantIndex, this.state.helmenchant)}
                        {this.gearRow("Neck", Neck, this.setNeckIndex,
                            this.state.neck)}
+                       {this.gearRow("Shoulders", Shoulders,
+                           this.setShouldersIndex, this.state.shoulders)}
+                       {this.gearRow("Enchant", ShoulderEnchants,
+                           this.setShoulderEnchantIndex, this.state.shoulderenchant)}
+                       {this.gearRow("Back", Back, this.setBackIndex,
+                           this.state.back)}
+                       {this.gearRow("Enchant", BackEnchants,
+                           this.setBackEnchantIndex, this.state.backenchant)}
+                       {this.gearRow("Chest", Chest, this.setChestIndex,
+                           this.state.chest)}
+                       {this.gearRow("Enchant", ChestEnchants,
+                           this.setChestEnchantIndex, this.state.chestenchant)}
+                       {this.gearRow("Wrists", Wrists, this.setWristsIndex,
+                           this.state.wrists)}
+                       {this.gearRow("Enchant", WristEnchants,
+                           this.setWristEnchantIndex, this.state.wristenchant)}
+                       {this.gearRow("Main Hand", Weapons,
+                           this.setMainHandIndex, this.state.mainhand)}
+                       {this.gearRow("Off Hand", Weapons,
+                           this.setOffHandIndex, this.state.offhand)}
                        {this.gearRow("Belt", Belts, this.setBeltIndex,
                            this.state.belt)}
                        {this.gearRow("Boots", Boots, this.setBootIndex,
