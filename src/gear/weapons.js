@@ -24,3 +24,21 @@ export const Weapons = [
         gear.DefenseZero,
         new gear.WeaponStats(57, 107, 1.6, false)),
 ];
+
+export const WeaponEnchants = [
+    gear.NoneItem,
+    new gear.Item("Enchant Weapon - Agility",
+        new gear.BaseStats(0, 15, 0, 0, 0),
+        gear.AttackZero,
+        gear.CasterZero,
+        gear.ResistanceZero,
+        gear.DefenseZero,
+        gear.WeaponZero),
+    new gear.Item("Enchant 2H Weapon - Agility",
+        new gear.BaseStats(0, 15, 0, 0, 0),
+        gear.AttackZero,
+        gear.CasterZero,
+        gear.ResistanceZero,
+        gear.DefenseZero,
+        new gear.WeaponStats(0, 0, 0, true)),
+];

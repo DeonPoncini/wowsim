@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import './App.css';
-import {Helms, HelmEnchants} from './gear/helms.js';
+import {Head, HeadEnchants} from './gear/head.js';
 import {Neck} from './gear/neck.js';
 import {Shoulders, ShoulderEnchants} from './gear/shoulders.js';
 import {Back, BackEnchants} from './gear/back.js';
 import {Chest, ChestEnchants} from './gear/chest.js';
 import {Wrists, WristEnchants} from './gear/wrists.js';
-import {Weapons} from './gear/weapons.js';
-import {Belts} from './gear/belts.js';
-import {Boots} from './gear/boots.js';
+import {Weapons, WeaponEnchants} from './gear/weapons.js';
+import {Ranged, RangedEnchants} from './gear/ranged.js';
+import {Hands, HandEnchants} from './gear/hands.js';
+import {Waist} from './gear/waist.js';
+import {Legs, LegEnchants} from './gear/legs.js';
+import {Feet, FeetEnchants} from './gear/feet.js';
+import {Fingers} from './gear/finger.js';
+import {Trinkets} from './gear/trinkets.js';
 import Picker from './Picker';
 
 class App extends Component {
@@ -18,8 +23,8 @@ class App extends Component {
         super(props);
 
         this.state = {
-            helm: 0,
-            helmenchant: 0,
+            head: 0,
+            headenchant: 0,
             neck: 0,
             shoulders: 0,
             shoulderenchant: 0,
@@ -30,14 +35,27 @@ class App extends Component {
             wrists: 0,
             wristenchant: 0,
             mainhand: 0,
+            mainhandenchant: 0,
             offhand: 0,
-            belt: 0,
-            boots: 0,
+            offhandenchant: 0,
+            ranged: 0,
+            rangedenchant: 0,
+            hands: 0,
+            handenchant: 0,
+            waist: 0,
+            legs: 0,
+            legenchant: 0,
+            feet: 0,
+            feetenchant: 0,
+            finger1: 0,
+            finger2: 0,
+            trinket1: 0,
+            trinket2: 0,
         };
     }
 
-    setHelmIndex = (i) => { this.setState({helm: i}); }
-    setHelmEnchantIndex = (i) => { this.setState({helmenchant: i}); }
+    setHeadIndex = (i) => { this.setState({head: i}); }
+    setHeadEnchantIndex = (i) => { this.setState({headenchant: i}); }
     setNeckIndex = (i) => { this.setState({neck: i}); }
     setShouldersIndex = (i) => { this.setState({shoulders: i}); }
     setShoulderEnchantIndex = (i) => { this.setState({shoulderenchant: i}); }
@@ -47,13 +65,26 @@ class App extends Component {
     setChestEnchantIndex = (i) => { this.setState({chestenchant: i}); }
     setWristsIndex = (i) => { this.setState({wrists: i}); }
     setWristEnchantIndex = (i) => { this.setState({wristenchant: i}); }
-    setBeltIndex = (i) => { this.setState({belt: i}); }
-    setBootIndex = (i) => { this.setState({boots: i}); }
+    setMainHandEnchantIndex = (i) => { this.setState({mainhandenchant: i}); }
+    setOffHandEnchantIndex = (i) => { this.setState({offhandenchant: i}); }
+    setRangedIndex = (i) => { this.setState({ranged: i}); }
+    setRangedEnchantIndex = (i) => { this.setState({rangedenchant: i}); }
+    setHandsIndex = (i) => { this.setState({hands: i}); }
+    setHandEnchantIndex = (i) => { this.setState({handenchant: i}); }
+    setWaistIndex = (i) => { this.setState({waist: i}); }
+    setLegIndex = (i) => { this.setState({legs: i}); }
+    setLegEnchantIndex = (i) => { this.setState({legenchants: i}); }
+    setFeetIndex = (i) => { this.setState({feet: i}); }
+    setFeetEnchantIndex = (i) => { this.setState({feetenchant: i}); }
+    setFinger1Index = (i) => { this.setState({finger1: i}); }
+    setFinger2Index = (i) => { this.setState({finger2: i}); }
+    setTrinket1Index = (i) => { this.setState({trinket1: i}); }
+    setTrinket2Index = (i) => { this.setState({trinket2: i}); }
 
     setMainHandIndex = (i) => {
         // remove off hand for 2H
         if (Weapons[i].weapon.twoh) {
-            this.setState( {mainhand: i, offhand: 0});
+            this.setState( {mainhand: i, offhand: 0, offhandenchant: 0});
         } else {
             this.setState( {mainhand: i});
         }
@@ -62,12 +93,12 @@ class App extends Component {
     setOffHandIndex = (i) => {
         // check if off hand is selecting 2h
         if (Weapons[i].weapon.twoh) {
-            this.setState( {mainhand: i, offhand: 0});
+            this.setState( {mainhand: i, offhand: 0, offhandenchant: 0});
         } else {
             // check if main hand is 2H
             if (Weapons[this.state.mainhand].weapon.twoh) {
                 // unequip it
-                this.setState( {mainhand: 0, offhand: i});
+                this.setState( {mainhand: 0, mainhandenchant: 0, offhand: i});
             } else {
                 this.setState( {offhand: i});
             }
@@ -156,10 +187,10 @@ class App extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                       {this.gearRow("Helm", Helms, this.setHelmIndex,
-                           this.state.helm)}
-                       {this.gearRow("Enchant", HelmEnchants,
-                           this.setHelmEnchantIndex, this.state.helmenchant)}
+                       {this.gearRow("Head", Head, this.setHeadIndex,
+                           this.state.head)}
+                       {this.gearRow("Enchant", HeadEnchants,
+                           this.setHeadEnchantIndex, this.state.headenchant)}
                        {this.gearRow("Neck", Neck, this.setNeckIndex,
                            this.state.neck)}
                        {this.gearRow("Shoulders", Shoulders,
@@ -180,12 +211,38 @@ class App extends Component {
                            this.setWristEnchantIndex, this.state.wristenchant)}
                        {this.gearRow("Main Hand", Weapons,
                            this.setMainHandIndex, this.state.mainhand)}
+                       {this.gearRow("Enchant", WeaponEnchants,
+                           this.setMainHandEnchantIndex, this.state.mainhandenchant)}
                        {this.gearRow("Off Hand", Weapons,
                            this.setOffHandIndex, this.state.offhand)}
-                       {this.gearRow("Belt", Belts, this.setBeltIndex,
-                           this.state.belt)}
-                       {this.gearRow("Boots", Boots, this.setBootIndex,
-                           this.state.boots)}
+                       {this.gearRow("Enchant", WeaponEnchants,
+                           this.setOffHandEnchantIndex, this.state.offhandenchant)}
+                       {this.gearRow("Ranged", Ranged,
+                           this.setRangedIndex, this.state.ranged)}
+                       {this.gearRow("Enchant", RangedEnchants,
+                           this.setRangedEnchantIndex, this.state.rangedenchant)}
+                       {this.gearRow("Hands", Hands,
+                           this.setHandsIndex, this.state.hands)}
+                       {this.gearRow("Enchant", HandEnchants,
+                           this.setHandEnchantIndex, this.state.handenchant)}
+                       {this.gearRow("Waist", Waist, this.setWaistIndex,
+                           this.state.waist)}
+                       {this.gearRow("Legs", Legs, this.setLegIndex,
+                           this.state.legs)}
+                       {this.gearRow("Enchant", LegEnchants,
+                           this.setLegEnchantIndex, this.state.legenchant)}
+                       {this.gearRow("Feet", Feet, this.setFeetIndex,
+                           this.state.feet)}
+                       {this.gearRow("Enchant", FeetEnchants,
+                           this.setFeetEnchantIndex, this.state.feetenchant)}
+                       {this.gearRow("Finger", Fingers, this.setFinger1Index,
+                           this.state.finger1)}
+                       {this.gearRow("Finger", Fingers, this.setFinger2Index,
+                           this.state.finger2)}
+                       {this.gearRow("Trinket", Trinkets, this.setTrinket1Index,
+                           this.state.trinket1)}
+                       {this.gearRow("Trinket", Trinkets, this.setTrinket2Index,
+                           this.state.trinket2)}
                     </tbody>
                 </Table>
             </div>

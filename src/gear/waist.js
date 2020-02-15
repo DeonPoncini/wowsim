@@ -1,6 +1,6 @@
 import * as gear from './gear'
 
-export const Belts = [
+export const Waist = [
     gear.NoneItem,
     new gear.Item("Giantstalker's Belt",
         new gear.BaseStats(0, 18, 9, 16, 4),

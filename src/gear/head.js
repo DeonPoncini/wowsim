@@ -1,6 +1,6 @@
 import * as gear from './gear'
 
-export const Helms = [
+export const Head = [
     gear.NoneItem,
     new gear.Item("Giantstalker's Helmet",
         new gear.BaseStats(0, 23, 15, 23, 8),
@@ -18,7 +18,7 @@ export const Helms = [
         gear.WeaponZero),
 ];
 
-export const HelmEnchants = [
+export const HeadEnchants = [
     gear.NoneItem,
     new gear.Item("Lesser Arcanum of Voracity",
         new gear.BaseStats(0, 8, 0, 0, 0),
