@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import './App.css';
-import {Belts, Boots} from './gear.js';
+import {Belts} from './gear/belts.js';
+import {Boots} from './gear/boots.js';
 import Picker from './Picker';
 
 class App extends Component {
