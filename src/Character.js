@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'react-bootstrap';
+import { ButtonToolbar, Dropdown, DropdownButton, Table } from 'react-bootstrap';
 import * as gear from './gear/gear.js';
 
 const clazz = {
@@ -130,20 +130,38 @@ class Character extends Component {
         super(props);
 
         this.state = {
-            clazz: "HUNTER",
+            clazz: "Hunter",
             race: "Night Elf",
-            health: 0,
-            mana: 0,
             stats: gear.NoneItem,
         };
     }
 
     onClassSelect = (key, e) =>  {
         console.log(key);
-        this.setState({clazz: key,
+        this.setState({clazz: clazz[key],
         race: class_to_race.get(clazz[key])[0]});
     }
     onRaceSelect = (key, e) =>  { this.setState({race: key}); }
+
+    calculateHealth = () => {
+        let hp = base_health.get(this.state.clazz);
+        return (
+            <div>HP {hp}</div>
+        );
+    }
+
+    calculateMana = () => {
+        if (this.state.clazz === clazz.ROGUE) {
+            return (<div>ENERGY 100</div>);
+        }
+        if (this.state.clazz === clazz.WARRIOR) {
+            return (<div>RAGE 0</div>);
+        }
+        let mp = base_mana.get(this.state.clazz);
+        return (
+            <div>MP {mp}</div>
+        );
+    }
 
     render() {
         // get the classes
@@ -160,7 +178,8 @@ class Character extends Component {
         }
         // get the races
         let races = [];
-        let mapped_races = class_to_race.get(clazz[this.state.clazz]);
+        console.log(this.state.clazz);
+        let mapped_races = class_to_race.get(this.state.clazz);
         for (let i = 0; i < mapped_races.length; i++) {
             races.push(
                 <Dropdown.Item
@@ -172,32 +191,43 @@ class Character extends Component {
             );
         }
         // get the base stats for that combination
-        let base = base_stats.get(clazz[this.state.clazz]).get(this.state.race);
+        let base = base_stats.get(this.state.clazz).get(this.state.race);
         return(
             <div className="Character">
-            <Dropdown>
-                <Dropdown.Toggle variant="primary" id="dropdown-class">
-                    Class
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    {classes}
-                </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-                <Dropdown.Toggle variant="primary" id="dropdown-race">
-                    Race
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    {races}
-                </Dropdown.Menu>
-            </Dropdown>
-            <div>{this.state.clazz}</div>
-            <div>{this.state.race}</div>
-            <div>Str: {base.strength}</div>
-            <div>Agi: {base.agility}</div>
-            <div>Int: {base.intellect}</div>
-            <div>Sta: {base.stamina}</div>
-            <div>Spirit: {base.spirit}</div>
+            <ButtonToolbar>
+            <DropdownButton title="Class" variant="primary" key="class">
+                {classes}
+            </DropdownButton>
+            <DropdownButton title="Race" variant="primary" key="race">
+                {races}
+            </DropdownButton>
+            </ButtonToolbar>
+            <Table striped bordered hover>
+            <tbody>
+                <tr>
+                    <th>Overview</th>
+                    <td>{this.state.race}</td>
+                    <td>{this.state.clazz}</td>
+                    <td>{this.calculateHealth()}</td>
+                    <td>{this.calculateMana()}</td>
+                </tr>
+                <tr>
+                    <th rowSpan="2">Base</th>
+                    <th>Strength</th>
+                    <th>Agility</th>
+                    <th>Intellect</th>
+                    <th>Stamina</th>
+                    <th>Spirit</th>
+                </tr>
+                <tr>
+                    <td>{base.strength}</td>
+                    <td>{base.agility}</td>
+                    <td>{base.intellect}</td>
+                    <td>{base.stamina}</td>
+                    <td>{base.spirit}</td>
+                </tr>
+            </tbody>
+            </Table>
             </div>
         );
     }
