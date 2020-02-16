@@ -121,3 +121,147 @@ export const base_stats = new Map([
         [race.UNDEAD, new BaseStats(119,78,28,111,50)],
     ])],
 ]);
+
+export const hp_per_sta = 10;
+export const mp_per_int = 15;
+export const armor_per_agi = 2;
+export const base_skill = 300;
+
+export const map_per_agi = new Map([
+    [clazz.DRUID, 1],
+    [clazz.HUNTER, 1],
+    [clazz.MAGE, 0],
+    [clazz.PALADIN, 0],
+    [clazz.PRIEST, 0],
+    [clazz.ROGUE, 1],
+    [clazz.SHAMAN, 0],
+    [clazz.WARLOCK, 0],
+    [clazz.WARRIOR, 0],
+]);
+
+export const rap_per_agi = new Map([
+    [clazz.DRUID, 1],
+    [clazz.HUNTER, 2],
+    [clazz.MAGE, 0],
+    [clazz.PALADIN, 0],
+    [clazz.PRIEST, 0],
+    [clazz.ROGUE, 2],
+    [clazz.SHAMAN, 0],
+    [clazz.WARLOCK, 0],
+    [clazz.WARRIOR, 2],
+]);
+
+export const agi_per_crit = new Map([
+    [clazz.DRUID, 20],
+    [clazz.HUNTER, 53],
+    [clazz.MAGE, 20],
+    [clazz.PALADIN, 20],
+    [clazz.PRIEST, 20],
+    [clazz.ROGUE, 29],
+    [clazz.SHAMAN, 20],
+    [clazz.WARLOCK, 20],
+    [clazz.WARRIOR, 20],
+]);
+
+export const agi_per_dodge = new Map([
+    [clazz.DRUID, 20],
+    [clazz.HUNTER, 26.5],
+    [clazz.MAGE, 20],
+    [clazz.PALADIN, 20],
+    [clazz.PRIEST, 20],
+    [clazz.ROGUE, 14.5],
+    [clazz.SHAMAN, 20],
+    [clazz.WARLOCK, 20],
+    [clazz.WARRIOR, 20],
+]);
+
+export const map_per_str = new Map([
+    [clazz.DRUID, 2],
+    [clazz.HUNTER, 1],
+    [clazz.MAGE, 2],
+    [clazz.PALADIN, 2],
+    [clazz.PRIEST, 2],
+    [clazz.ROGUE, 1],
+    [clazz.SHAMAN, 2],
+    [clazz.WARLOCK, 2],
+    [clazz.WARRIOR, 2],
+]);
+
+export const str_per_block = new Map([
+    [clazz.DRUID, 0],
+    [clazz.HUNTER, 0],
+    [clazz.MAGE, 0],
+    [clazz.PALADIN, 20],
+    [clazz.PRIEST, 0],
+    [clazz.ROGUE, 0],
+    [clazz.SHAMAN, 20],
+    [clazz.WARLOCK, 0],
+    [clazz.WARRIOR, 20],
+]);
+
+export const int_per_spellcrit = new Map([
+    [clazz.DRUID, 60],
+    [clazz.HUNTER, 0],
+    [clazz.MAGE, 59.5],
+    [clazz.PALADIN, 29.5],
+    [clazz.PRIEST, 59.2],
+    [clazz.ROGUE, 0],
+    [clazz.SHAMAN, 59.5],
+    [clazz.WARLOCK, 60.6],
+    [clazz.WARRIOR, 0],
+]);
+
+export const spirit_mana_base = new Map([
+    [clazz.DRUID, 15],
+    [clazz.HUNTER, 15],
+    [clazz.MAGE, 13],
+    [clazz.PALADIN, 15],
+    [clazz.PRIEST, 13],
+    [clazz.SHAMAN, 15],
+    [clazz.WARLOCK, 8],
+]);
+
+export const spirit_mana_divisor = new Map([
+    [clazz.DRUID, 5],
+    [clazz.HUNTER, 5],
+    [clazz.MAGE, 4],
+    [clazz.PALADIN, 5],
+    [clazz.PRIEST, 4],
+    [clazz.SHAMAN, 5],
+    [clazz.WARLOCK, 4],
+]);
+
+export const spirit_health_multiplier = new Map([
+    [clazz.DRUID, 0.09],
+    [clazz.HUNTER, 0.25],
+    [clazz.MAGE, 0.1],
+    [clazz.PALADIN, 0.25],
+    [clazz.PRIEST, 0.1],
+    [clazz.ROGUE, 0.5],
+    [clazz.SHAMAN, 0.11],
+    [clazz.WARLOCK, 0.07],
+    [clazz.WARRIOR, 0.8],
+]);
+
+export const spirit_health_base = new Map([
+    [clazz.DRUID, 6.5],
+    [clazz.HUNTER, 6],
+    [clazz.MAGE, 0],
+    [clazz.PALADIN, 0],
+    [clazz.PRIEST, 0],
+    [clazz.ROGUE, 2],
+    [clazz.SHAMAN, 7],
+    [clazz.WARLOCK, 6],
+    [clazz.WARRIOR, 6],
+]);
+
+export const ap_per_dps = 14;
+export const defense_multiplier = 0.04;
+export const weapon_skill_multiplier = 0.04;
+export const melee_crit_multiplier = 2;
+export const spell_crit_multiplier = 1.5;
+export const lvl60_base_hit_rate = 0.95;
+export const lvl63_base_hit_rate = 0.91;
+export const lvl60_base_spellhit_rate = 0.97;
+export const lvl63_base_spellhit_rate = 0.84;
+export const spellresist_rate = 0.99;

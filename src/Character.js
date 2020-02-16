@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ButtonToolbar, Dropdown, DropdownButton, Table } from 'react-bootstrap';
+import { ButtonToolbar, Dropdown,
+    DropdownButton, Jumbotron, Table } from 'react-bootstrap';
 import * as gear from './gear/gear.js';
 import * as data from './data.js';
 
@@ -16,6 +17,7 @@ class Character extends Component {
         this.health = 0;
         this.mana = 0;
         this.stats = JSON.parse(JSON.stringify(gear.NoneItem));
+        this.skills = JSON.parse(JSON.stringify(gear.WeaponSkillZero));
         this.calculateStats();
     }
 
@@ -29,9 +31,52 @@ class Character extends Component {
         let stamina = base.stamina + this.props.item.base.stamina;
         let spirit = base.spirit + this.props.item.base.spirit;
 
+        // calculate attack stats
+        let hit = this.props.item.attack.hit;
+        let crit = this.props.item.attack.crit +
+            agility/data.agi_per_crit.get(this.state.clazz);
+        if (crit > 100) { crit = 100; }
+        let map = this.props.item.attack.map +
+            agility*data.map_per_agi.get(this.state.clazz);
+        let rap = this.props.item.attack.rap +
+            agility*data.rap_per_agi.get(this.state.clazz);
+
+        // calculate caster stats
+        let spellpower = this.props.item.caster.spellpower;
+        let healing = this.props.item.caster.healing;
+        let spellcrit = this.props.item.caster.spellcrit;
+        let int_div = data.int_per_spellcrit.get(this.state.clazz);
+        if (int_div > 0) {
+            spellcrit += intellect/int_div;
+        }
+        let mp5 = this.props.item.caster.mp5;
+        let spellpen = this.props.item.caster.spellpen;
+
+        // calculate resistances
+        let fire = this.props.item.resistance.fire;
+        let frost = this.props.item.resistance.frost;
+        let arcane = this.props.item.resistance.arcane;
+        let nature = this.props.item.resistance.nature;
+        let shadow = this.props.item.resistance.shadow;
+
+        // calculate defense stats
+        let armor = this.props.item.defense.armor + agility*data.armor_per_agi;
+        let defense = data.base_skill + this.props.item.defense.defense;
+        let block = this.props.item.defense.block +
+            (defense-data.base_skill)*data.defense_multiplier;
+        let str_div = data.str_per_block.get(this.state.clazz);
+        if (str_div > 0) {
+            block += strength/str_div;
+        }
+        let dodge = this.props.item.defense.dodge +
+            (defense-data.base_skill)*data.defense_multiplier +
+            agility/data.agi_per_dodge.get(this.state.clazz);
+        let parry = this.props.item.defense.parry +
+            (defense-data.base_skill)*data.defense_multiplier;
+
         // calculate health totals
         let base_hp = data.base_health.get(this.state.clazz);
-        let hp = base_hp + stamina*10;
+        let hp = base_hp + stamina*data.hp_per_sta;
 
         // calculate mana totals
         let mp = 0;
@@ -39,11 +84,51 @@ class Character extends Component {
             mp = 100;
         } else if (this.state.clazz === data.clazz.WARRIOR) {
             mp = 0;
-            return (<div>RAGE 0</div>);
         } else {
             let base_mp = data.base_mana.get(this.state.clazz);
-            mp = base_mp + intellect*15;
+            mp = base_mp + intellect*data.mp_per_int;
         }
+
+        // calculate racial abilities on top of this
+        switch (this.state.race) {
+            case data.race.DWARF:
+                frost += 10;
+                this.skills.gun += 5;
+                break;
+            case data.race.GNOME:
+                arcane += 10;
+                intellect *= 1.05;
+                break;
+            case data.race.HUMAN:
+                this.skills.h1mace += 5;
+                this.skills.h2mace += 5;
+                this.skills.h1sword += 5;
+                this.skills.h2sword += 5;
+                spirit *= 1.05;
+                break;
+            case data.race.NIGHTELF:
+                nature += 10;
+                dodge += 1;
+                break;
+            case data.race.ORC:
+                this.skills.h1axe += 5;
+                this.skills.h2axe += 5;
+                break;
+            case data.race.TAUREN:
+                hp *= 1.05;
+                nature += 10;
+                break;
+            case data.race.TROLL:
+                this.skills.bow += 5;
+                this.skills.thrown += 5;
+                break;
+            case data.race.UNDEAD:
+                shadow += 10;
+                break;
+            default: break;
+        }
+
+        // adjust hit and crit rates based on weapon skill
 
         // assign the final values
         this.stats.base.strength = strength;
@@ -51,6 +136,25 @@ class Character extends Component {
         this.stats.base.intellect = intellect;
         this.stats.base.stamina = stamina;
         this.stats.base.spirit = spirit;
+        this.stats.attack.hit = hit;
+        this.stats.attack.crit = crit;
+        this.stats.attack.map = map;
+        this.stats.attack.rap = rap;
+        this.stats.caster.spellpower = spellpower;
+        this.stats.caster.healing = healing;
+        this.stats.caster.spellcrit = spellcrit;
+        this.stats.caster.mp5 = mp5;
+        this.stats.caster.spellpen = spellpen;
+        this.stats.resistance.fire = fire;
+        this.stats.resistance.frost = frost;
+        this.stats.resistance.arcane = arcane;
+        this.stats.resistance.nature = nature;
+        this.stats.resistance.shadow = shadow;
+        this.stats.defense.armor = armor;
+        this.stats.defense.defense = defense;
+        this.stats.defense.block = block;
+        this.stats.defense.dodge = dodge;
+        this.stats.defense.parry = parry;
         this.health = hp;
         this.mana = mp;
     }
@@ -108,15 +212,12 @@ class Character extends Component {
                 {races}
             </DropdownButton>
             </ButtonToolbar>
+            <Jumbotron>
+                <h1>{this.state.race} {this.state.clazz}</h1>
+                <h3>HP {this.health} {mp_label} {this.mana}</h3>
+            </Jumbotron>
             <Table striped bordered hover>
             <tbody>
-                <tr>
-                    <th>Overview</th>
-                    <td>{this.state.race}</td>
-                    <td>{this.state.clazz}</td>
-                    <td>HP {this.health}</td>
-                    <td>{mp_label} {this.mana}</td>
-                </tr>
                 <tr>
                     <th rowSpan="2">Base</th>
                     <th>Strength</th>
@@ -131,6 +232,64 @@ class Character extends Component {
                     <td>{this.stats.base.intellect}</td>
                     <td>{this.stats.base.stamina}</td>
                     <td>{this.stats.base.spirit}</td>
+                </tr>
+                <tr>
+                    <th rowSpan="2">Attack</th>
+                    <th>Hit %</th>
+                    <th>Crit %</th>
+                    <th>Melee AP</th>
+                    <th>Ranged AP</th>
+                </tr>
+                <tr>
+                    <td>{this.stats.attack.hit}</td>
+                    <td>{this.stats.attack.crit}</td>
+                    <td>{this.stats.attack.map}</td>
+                    <td>{this.stats.attack.rap}</td>
+                </tr>
+                <tr>
+                    <th rowSpan="2">Caster</th>
+                    <th>Spell Power</th>
+                    <th>Healing</th>
+                    <th>Spell Crit %</th>
+                    <th>MP5</th>
+                    <th>Spell Penetration</th>
+                </tr>
+                <tr>
+                    <td>{this.stats.caster.spellpower}</td>
+                    <td>{this.stats.caster.healing}</td>
+                    <td>{this.stats.caster.spellcrit}</td>
+                    <td>{this.stats.caster.mp5}</td>
+                    <td>{this.stats.caster.spellpen}</td>
+                </tr>
+                <tr>
+                    <th rowSpan="2">Resistances</th>
+                    <th>Fire</th>
+                    <th>Frost</th>
+                    <th>Arcane</th>
+                    <th>Nature</th>
+                    <th>Shadow</th>
+                </tr>
+                <tr>
+                    <td>{this.stats.resistance.fire}</td>
+                    <td>{this.stats.resistance.frost}</td>
+                    <td>{this.stats.resistance.arcane}</td>
+                    <td>{this.stats.resistance.nature}</td>
+                    <td>{this.stats.resistance.shadow}</td>
+                </tr>
+                <tr>
+                    <th rowSpan="2">Defense</th>
+                    <th>Armor</th>
+                    <th>Defense</th>
+                    <th>Block</th>
+                    <th>Dodge</th>
+                    <th>Parry</th>
+                </tr>
+                <tr>
+                    <td>{this.stats.defense.armor}</td>
+                    <td>{this.stats.defense.defense}</td>
+                    <td>{this.stats.defense.block}</td>
+                    <td>{this.stats.defense.dodge}</td>
+                    <td>{this.stats.defense.parry}</td>
                 </tr>
             </tbody>
             </Table>
