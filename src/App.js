@@ -1,6 +1,7 @@
 import './App.css';
 import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
+import Character from './Character';
 import GearSelect from './GearSelect';
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
         return(
             <Tabs defaultActiveKey="character" id="top-level-tabs">
                 <Tab eventKey="character" title="Character">
-                    <div>Character info here</div>
+                    <Character />
                 </Tab>
                 <Tab eventKey="gear" title="Gear">
                     <GearSelect />

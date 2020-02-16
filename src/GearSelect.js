@@ -142,18 +142,18 @@ class GearSelect extends Component {
 
     render() {
         return(
-            <div className="App">
+            <div className="GearSelect">
                 <Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th rowspan="2">Slot</th>
-                            <th rowspan="2">Item</th>
-                            <th colspan="5">Base Stats</th>
-                            <th colspan="4">Attack Stats</th>
-                            <th colspan="5">Caster Stats</th>
-                            <th colspan="5">Resistances</th>
-                            <th colspan="5">Defense Stats</th>
-                            <th colspan="3">Weapon Stats</th>
+                            <th rowSpan="2">Slot</th>
+                            <th rowSpan="2">Item</th>
+                            <th colSpan="5">Base Stats</th>
+                            <th colSpan="4">Attack Stats</th>
+                            <th colSpan="5">Caster Stats</th>
+                            <th colSpan="5">Resistances</th>
+                            <th colSpan="5">Defense Stats</th>
+                            <th colSpan="3">Weapon Stats</th>
                         </tr>
                         <tr>
                             <th>Strength</th>

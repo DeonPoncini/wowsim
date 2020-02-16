@@ -4,7 +4,6 @@ import { Button, Modal } from 'react-bootstrap';
 class Picker extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.gear);
         this.state = {
             show: false,
         };
@@ -26,7 +25,7 @@ class Picker extends Component {
         const rows = []
         for (let i = 0; i < this.props.gear.length; i++) {
             rows.push(
-                <div>
+                <div key={i}>
                 <Button key={i} onClick={() => {
                     this.props.callback(i);
                     this.handleClose();
