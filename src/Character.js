@@ -293,6 +293,39 @@ class Character extends Component {
                 </tr>
             </tbody>
             </Table>
+            <Table striped bordered hover>
+            <tbody>
+                <tr>
+                    <th rowSpan="4">Weapon</th>
+                    <th>Slot</th>
+                    <th>Type</th>
+                    <th>Damage Min</th>
+                    <th>Damage Max</th>
+                    <th>Speed</th>
+                </tr>
+                <tr>
+                    <td>Main Hand</td>
+                    <td>{this.props.weapons.main.weapon.type}</td>
+                    <td>{this.props.weapons.main.weapon.dmgmin}</td>
+                    <td>{this.props.weapons.main.weapon.dmgmax}</td>
+                    <td>{this.props.weapons.main.weapon.speed}</td>
+                </tr>
+                <tr>
+                    <td>Off Hand</td>
+                    <td>{this.props.weapons.off.weapon.type}</td>
+                    <td>{this.props.weapons.off.weapon.dmgmin}</td>
+                    <td>{this.props.weapons.off.weapon.dmgmax}</td>
+                    <td>{this.props.weapons.off.weapon.speed}</td>
+                </tr>
+                <tr>
+                    <td>Ranged</td>
+                    <td>{this.props.weapons.ranged.weapon.type}</td>
+                    <td>{this.props.weapons.ranged.weapon.dmgmin}</td>
+                    <td>{this.props.weapons.ranged.weapon.dmgmax}</td>
+                    <td>{this.props.weapons.ranged.weapon.speed}</td>
+               </tr>
+            </tbody>
+            </Table>
             </div>
         );
     }
