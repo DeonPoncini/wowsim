@@ -132,35 +132,58 @@ class Character extends Component {
         this.state = {
             clazz: "Hunter",
             race: "Night Elf",
-            stats: gear.NoneItem,
         };
+
+        this.health = 0;
+        this.mana = 0;
+        this.stats = JSON.parse(JSON.stringify(gear.NoneItem));
+        this.calculateStats();
+    }
+
+    calculateStats = () => {
+        // stats are the base stats + the item stats we have
+        let base = base_stats.get(this.state.clazz).get(this.state.race);
+        // total base stats
+        let strength = base.strength + this.props.item.base.strength;
+        let agility = base.agility + this.props.item.base.agility;
+        let intellect = base.intellect + this.props.item.base.intellect;
+        let stamina = base.stamina + this.props.item.base.stamina;
+        let spirit = base.spirit + this.props.item.base.spirit;
+
+        // calculate health totals
+        let base_hp = base_health.get(this.state.clazz);
+        let hp = base_hp + stamina*10;
+
+        // calculate mana totals
+        let mp = 0;
+        if (this.state.clazz === clazz.ROGUE) {
+            mp = 100;
+        } else if (this.state.clazz === clazz.WARRIOR) {
+            mp = 0;
+            return (<div>RAGE 0</div>);
+        } else {
+            let base_mp = base_mana.get(this.state.clazz);
+            mp = base_mp + intellect*15;
+        }
+
+        // assign the final values
+        this.stats.base.strength = strength;
+        this.stats.base.agility = agility;
+        this.stats.base.intellect = intellect;
+        this.stats.base.stamina = stamina;
+        this.stats.base.spirit = spirit;
+        this.health = hp;
+        this.mana = mp;
     }
 
     onClassSelect = (key, e) =>  {
-        console.log(key);
         this.setState({clazz: clazz[key],
-        race: class_to_race.get(clazz[key])[0]});
+            race: class_to_race.get(clazz[key])[0]});
+        this.calculateStats();
     }
-    onRaceSelect = (key, e) =>  { this.setState({race: key}); }
-
-    calculateHealth = () => {
-        let hp = base_health.get(this.state.clazz);
-        return (
-            <div>HP {hp}</div>
-        );
-    }
-
-    calculateMana = () => {
-        if (this.state.clazz === clazz.ROGUE) {
-            return (<div>ENERGY 100</div>);
-        }
-        if (this.state.clazz === clazz.WARRIOR) {
-            return (<div>RAGE 0</div>);
-        }
-        let mp = base_mana.get(this.state.clazz);
-        return (
-            <div>MP {mp}</div>
-        );
+    onRaceSelect = (key, e) =>  {
+        this.setState({race: key});
+        this.calculateStats();
     }
 
     render() {
@@ -178,7 +201,6 @@ class Character extends Component {
         }
         // get the races
         let races = [];
-        console.log(this.state.clazz);
         let mapped_races = class_to_race.get(this.state.clazz);
         for (let i = 0; i < mapped_races.length; i++) {
             races.push(
@@ -190,8 +212,13 @@ class Character extends Component {
                 </Dropdown.Item>
             );
         }
-        // get the base stats for that combination
-        let base = base_stats.get(this.state.clazz).get(this.state.race);
+        let mp_label = "MP";
+        if (this.state.clazz === clazz.ROGUE) {
+            mp_label = "ENERGY";
+        } else if (this.state.clazz === clazz.WARRIOR) {
+            mp_label = "RAGE";
+        }
+        this.calculateStats();
         return(
             <div className="Character">
             <ButtonToolbar>
@@ -208,8 +235,8 @@ class Character extends Component {
                     <th>Overview</th>
                     <td>{this.state.race}</td>
                     <td>{this.state.clazz}</td>
-                    <td>{this.calculateHealth()}</td>
-                    <td>{this.calculateMana()}</td>
+                    <td>HP {this.health}</td>
+                    <td>{mp_label} {this.mana}</td>
                 </tr>
                 <tr>
                     <th rowSpan="2">Base</th>
@@ -220,11 +247,11 @@ class Character extends Component {
                     <th>Spirit</th>
                 </tr>
                 <tr>
-                    <td>{base.strength}</td>
-                    <td>{base.agility}</td>
-                    <td>{base.intellect}</td>
-                    <td>{base.stamina}</td>
-                    <td>{base.spirit}</td>
+                    <td>{this.stats.base.strength}</td>
+                    <td>{this.stats.base.agility}</td>
+                    <td>{this.stats.base.intellect}</td>
+                    <td>{this.stats.base.stamina}</td>
+                    <td>{this.stats.base.spirit}</td>
                 </tr>
             </tbody>
             </Table>

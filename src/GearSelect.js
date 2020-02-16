@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
+import {NoneItem} from './gear/gear.js';
 import {Head, HeadEnchants} from './gear/head.js';
 import {Neck} from './gear/neck.js';
 import {Shoulders, ShoulderEnchants} from './gear/shoulders.js';
@@ -72,7 +73,7 @@ class GearSelect extends Component {
     setHandEnchantIndex = (i) => { this.setState({handenchant: i}); }
     setWaistIndex = (i) => { this.setState({waist: i}); }
     setLegIndex = (i) => { this.setState({legs: i}); }
-    setLegEnchantIndex = (i) => { this.setState({legenchants: i}); }
+    setLegEnchantIndex = (i) => { this.setState({legenchant: i}); }
     setFeetIndex = (i) => { this.setState({feet: i}); }
     setFeetEnchantIndex = (i) => { this.setState({feetenchant: i}); }
     setFinger1Index = (i) => { this.setState({finger1: i}); }
@@ -103,6 +104,91 @@ class GearSelect extends Component {
             }
         }
     }
+
+    add_gear = (item, gear, i) => {
+        item.base.strength += gear[i].base.strength;
+        item.base.agility += gear[i].base.agility;
+        item.base.intellect += gear[i].base.intellect;
+        item.base.stamina += gear[i].base.stamina;
+        item.base.spirit += gear[i].base.spirit;
+        item.attack.hit += gear[i].attack.hit;
+        item.attack.crit += gear[i].attack.crit;
+        item.attack.map += gear[i].attack.map;
+        item.attack.rap += gear[i].attack.rap;
+        item.caster.spellpower += gear[i].caster.spellpower;
+        item.caster.healing += gear[i].caster.healing;
+        item.caster.spellcrit += gear[i].caster.spellcrit;
+        item.caster.mp5 += gear[i].caster.mp5;
+        item.caster.spellpen += gear[i].caster.spellpen;
+        item.resistance.fire += gear[i].resistance.fire;
+        item.resistance.frost += gear[i].resistance.frost;
+        item.resistance.arcane += gear[i].resistance.arcane;
+        item.resistance.nature += gear[i].resistance.nature;
+        item.resistance.shadow += gear[i].resistance.shadow;
+        item.defense.armor += gear[i].defense.armor;
+        item.defense.block += gear[i].defense.block;
+        item.defense.dodge += gear[i].defense.dodge;
+        item.defense.parry += gear[i].defense.parry;
+        item.weapon.speed += gear[i].weapon.speed;
+        item.weapon.dmgmin += gear[i].weapon.dmgmin;
+        item.weapon.dmgmax += gear[i].weapon.dmgmax;
+        item.weapon.twoh = gear[i].weapon.twoh;
+        return item;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state === prevState) {
+            return;
+        }
+        // add up the equipped gear
+        let item = this.add_gear(JSON.parse(JSON.stringify(NoneItem)),
+            Head, this.state.head);
+        item = this.add_gear(item, HeadEnchants, this.state.headenchant);
+        item = this.add_gear(item, Neck, this.state.neck);
+        item = this.add_gear(item, Shoulders, this.state.shoulders);
+        item = this.add_gear(item, ShoulderEnchants, this.state.shoulderenchant);
+        item = this.add_gear(item, Back, this.state.back);
+        item = this.add_gear(item, BackEnchants, this.state.backenchant);
+        item = this.add_gear(item, Chest, this.state.chest);
+        item = this.add_gear(item, ChestEnchants, this.state.chestenchant);
+        item = this.add_gear(item, Wrists, this.state.wrists);
+        item = this.add_gear(item, WristEnchants, this.state.wristenchant);
+        item = this.add_gear(item, Weapons, this.state.mainhand);
+        item = this.add_gear(item, WeaponEnchants, this.state.mainhandenchant);
+        item = this.add_gear(item, Weapons, this.state.offhand);
+        item = this.add_gear(item, WeaponEnchants, this.state.offhandenchant);
+        item = this.add_gear(item, Ranged, this.state.ranged);
+        item = this.add_gear(item, RangedEnchants, this.state.rangedenchant);
+        item = this.add_gear(item, Hands, this.state.hands);
+        item = this.add_gear(item, HandEnchants, this.state.handenchant);
+        item = this.add_gear(item, Waist, this.state.waist);
+        item = this.add_gear(item, Legs, this.state.legs);
+        item = this.add_gear(item, LegEnchants, this.state.legenchant);
+        item = this.add_gear(item, Feet, this.state.feet);
+        item = this.add_gear(item, FeetEnchants, this.state.feetenchant);
+        item = this.add_gear(item, Fingers, this.state.finger1);
+        item = this.add_gear(item, Fingers, this.state.finger2);
+        item = this.add_gear(item, Trinkets, this.state.trinket1);
+        item = this.add_gear(item, Trinkets, this.state.trinket2);
+
+        // add the weapon enchants on to the weapons
+        // this is just needed so we can calculate weapon damage
+        let main = JSON.parse(JSON.stringify(Weapons[this.state.mainhand]));
+        main = this.add_gear(main, WeaponEnchants, this.state.mainhandenchant);
+        let off = JSON.parse(JSON.stringify(Weapons[this.state.offhand]));
+        off = this.add_gear(off, WeaponEnchants, this.state.offhandenchant);
+        let ranged = JSON.parse(JSON.stringify(Ranged[this.state.ranged]));
+        ranged = this.add_gear(off, RangedEnchants, this.state.rangedenchant);
+        let weapons = {
+            main: main,
+            off: off,
+            ranged: ranged,
+        };
+
+        // calculate the new gear after each update
+        this.props.updateGear(item, weapons);
+    }
+
 
     gearRow = (slot, gear, picker, i) => {
         return(
