@@ -17,6 +17,7 @@ import {Feet, FeetEnchants} from './gear/feet.js';
 import {Fingers} from './gear/finger.js';
 import {Trinkets} from './gear/trinkets.js';
 import Picker from './Picker';
+import {checkSets} from './itemsets.js';
 
 class GearSelect extends Component {
 
@@ -194,10 +195,12 @@ class GearSelect extends Component {
             ranged: ranged,
         };
 
-        // calculate the new gear after each update
-        this.props.updateGear(item, weapons);
-    }
+        // check the set bonuses
+        let sets = checkSets(this.state);
 
+        // calculate the new gear after each update
+        this.props.updateGear(item, weapons, sets);
+    }
 
     gearRow = (slot, gear, picker, i) => {
         return(

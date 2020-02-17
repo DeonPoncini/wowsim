@@ -15,10 +15,11 @@ class App extends Component {
             character: {clazz: "", race: "", health: 0, mana: 0,
                 stats: NoneItem, weapons: {main: NoneItem,
                     off: NoneItem, ranged: NoneItem}},
+            sets: new Map(),
         };
     }
 
-    updateGear = (item, weapons) => {
+    updateGear = (item, weapons, sets) => {
         let character = {
             clazz: this.state.character.clazz,
             race: this.state.character.race,
@@ -28,7 +29,7 @@ class App extends Component {
             weapons: weapons,
         };
         this.setState({
-            character: character,
+            character: character, sets: sets,
         });
     }
 
@@ -53,7 +54,8 @@ class App extends Component {
                     <GearSelect updateGear={this.updateGear}/>
                 </Tab>
                 <Tab eventKey="simulator" title="Simulator">
-                    <HunterSim character={this.state.character}/>
+                    <HunterSim character={this.state.character}
+                            sets={this.state.sets} />
                 </Tab>
             </Tabs>
         );

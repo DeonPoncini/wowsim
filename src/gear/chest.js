@@ -2,7 +2,7 @@ import * as gear from './gear.js'
 
 export const Chest = [
     gear.NoneItem,
-    new gear.Item("Gianstalker's Breastplate",
+    new gear.Item("Giantstalker's Breastplate",
         new gear.BaseStats(0, 26, 11, 23, 0),
         new gear.AttackStats(0, 1, 0, 0),
         gear.CasterZero,

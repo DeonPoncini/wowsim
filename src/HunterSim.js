@@ -7,7 +7,6 @@ class HunterSim extends Component {
     constructor(props) {
         super(props);
 
-        // try and detect set bonus modifiers
         this.state = {
             hawk: 0,
             mark: 0,
@@ -21,7 +20,17 @@ class HunterSim extends Component {
             surefooted: 0,
             killer: 0,
             lightning: 0,
+            giantstalker: 0,
         }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props === prevProps) {
+            return;
+        }
+        // try and detect set bonus modifiers
+        let gs = this.props.sets.get('Giantstalker Armor');
+        this.setState({giantstalker: gs});
     }
 
     runSim = () => {
@@ -75,6 +84,8 @@ class HunterSim extends Component {
     render() {
         return (
             <div key="simulator">
+            {this.state.giantstalker === 8 &&
+                <div>Giantstalker Armor 8 set bonus detected</div>}
             <Form>
                 {this.optionForm("Improved Aspect of the Hawk",
                     this.hawkChange, 5)}

@@ -16,11 +16,11 @@ class Spell {
         }
     }
 
-    tick(character) {
+    tick() {
         if (this.casting) {
             if (this.timer === this.cast_time) {
                 // we can activate the spell
-                this.apply_effect(character);
+                return true;
             }
             if (this.timer === this.cooldown) {
                 // spell is over we are done casting
@@ -38,6 +38,7 @@ class Spell {
                 this.timer += 1;
             }
         }
+        return false;
     }
 
     cast() {
