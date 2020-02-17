@@ -1,18 +1,18 @@
+export const TPS = 10;
 
 class Spell {
 
     constructor(cast_time, cooldown) {
         this.timer = 0;
-        this.tps = 10;
         this.gcd = 0;
-        this.cast_time = cast_time*this.tps;
-        this.cooldown = this.cast_time + cooldown*this.tps;
+        this.cast_time = cast_time*TPS;
+        this.cooldown = this.cast_time + cooldown*TPS;
         this.casting = false;
     }
 
     activate_gcd() {
         if (!this.casting) {
-            this.gcd = 1.5*this.tps;
+            this.gcd = 1.5*TPS;
         }
     }
 
@@ -55,7 +55,7 @@ class Spell {
     }
 
     apply_effect(character) {
-        console.log("This should be overriden");
+        return 0;
     }
 
 }
