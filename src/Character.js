@@ -159,14 +159,31 @@ class Character extends Component {
         this.mana = mp;
     }
 
+    updateCharacter = () => {
+        // return the character up to use in simulator
+        let character = {
+            clazz: this.state.clazz,
+            race: this.state.race,
+            health: this.health,
+            mana: this.mana,
+            stats: this.stats,
+            skills: this.skills,
+            weapons: this.props.weapons,
+        }
+        this.props.updateCharacter(character);
+    }
+
     onClassSelect = (key, e) =>  {
         this.setState({clazz: data.clazz[key],
             race: data.class_to_race.get(data.clazz[key])[0]});
         this.calculateStats();
+        this.updateCharacter();
     }
+
     onRaceSelect = (key, e) =>  {
         this.setState({race: key});
         this.calculateStats();
+        this.updateCharacter();
     }
 
     render() {
