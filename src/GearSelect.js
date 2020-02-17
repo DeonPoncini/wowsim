@@ -9,6 +9,7 @@ import {Chest, ChestEnchants} from './gear/chest.js';
 import {Wrists, WristEnchants} from './gear/wrists.js';
 import {Weapons, WeaponEnchants} from './gear/weapons.js';
 import {Ranged, RangedEnchants} from './gear/ranged.js';
+import {Ammo, Pouch} from './gear/ammo.js';
 import {Hands, HandEnchants} from './gear/hands.js';
 import {Waist} from './gear/waist.js';
 import {Legs, LegEnchants} from './gear/legs.js';
@@ -51,6 +52,8 @@ class GearSelect extends Component {
             finger2: 0,
             trinket1: 0,
             trinket2: 0,
+            ammo: 0,
+            pouch: 0,
         };
     }
 
@@ -69,6 +72,8 @@ class GearSelect extends Component {
     setOffHandEnchantIndex = (i) => { this.setState({offhandenchant: i}); }
     setRangedIndex = (i) => { this.setState({ranged: i}); }
     setRangedEnchantIndex = (i) => { this.setState({rangedenchant: i}); }
+    setAmmoIndex = (i) => { this.setState({ammo: i}); }
+    setPouchIndex = (i) => { this.setState({pouch: i}); }
     setHandsIndex = (i) => { this.setState({hands: i}); }
     setHandEnchantIndex = (i) => { this.setState({handenchant: i}); }
     setWaistIndex = (i) => { this.setState({waist: i}); }
@@ -178,7 +183,11 @@ class GearSelect extends Component {
         let off = JSON.parse(JSON.stringify(Weapons[this.state.offhand]));
         off = this.add_gear(off, WeaponEnchants, this.state.offhandenchant);
         let ranged = JSON.parse(JSON.stringify(Ranged[this.state.ranged]));
-        ranged = this.add_gear(off, RangedEnchants, this.state.rangedenchant);
+        ranged = this.add_gear(ranged, RangedEnchants, this.state.rangedenchant);
+        ranged = this.add_gear(ranged, Ammo, this.state.ammo);
+        // multiply by the pouch speed
+        ranged.weapon.speed -= (ranged.weapon.speed*
+            Pouch[this.state.pouch].weapon.speed);
         let weapons = {
             main: main,
             off: off,
@@ -306,6 +315,10 @@ class GearSelect extends Component {
                            this.setRangedIndex, this.state.ranged)}
                        {this.gearRow("Enchant", RangedEnchants,
                            this.setRangedEnchantIndex, this.state.rangedenchant)}
+                       {this.gearRow("Ammo", Ammo,
+                           this.setAmmoIndex, this.state.ammo)}
+                       {this.gearRow("Pouch", Pouch,
+                           this.setPouchIndex, this.state.pouch)}
                        {this.gearRow("Hands", Hands,
                            this.setHandsIndex, this.state.hands)}
                        {this.gearRow("Enchant", HandEnchants,

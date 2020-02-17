@@ -8,7 +8,8 @@ export const Ranged = [
         gear.CasterZero,
         gear.ResistanceZero,
         gear.DefenseZero,
-        new gear.WeaponStats(89, 166, 2.9, false)),
+        new gear.WeaponStats(gear.WeaponType.BOW,
+            89, 166, 2.9, false)),
 ];
 
 export const RangedEnchants = [
@@ -19,5 +20,5 @@ export const RangedEnchants = [
         gear.CasterZero,
         gear.ResistanceZero,
         gear.DefenseZero,
-        new gear.WeaponStats(7, 7, 0, false)),
+        new gear.WeaponStats(gear.WeaponType.NONE, 7, 7, 0, false)),
 ];

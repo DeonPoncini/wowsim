@@ -11,6 +11,7 @@ function makeStruct(n) {
 
 export const WeaponType = {
     NONE: 'None',
+    AMMO: 'Ammo',
     BOW: 'Bow',
     CROSSBOW: 'Crossbow',
     DAGGER: 'Dagger',
