@@ -7,7 +7,6 @@ class Spell {
         this.gcd = 0;
         this.cast_time = cast_time*TPS;
         this.cooldown = Math.round(this.cast_time + cooldown*TPS);
-        console.log(this.cooldown);
         this.casting = false;
     }
 

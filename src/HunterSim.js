@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Button, Col, Form, Jumbotron} from 'react-bootstrap';
 import Autoshot from './spells/autoshot.js';
 import AimedShot from './spells/aimedshot.js';
+import Multishot from './spells/multishot.js';
+import {TPS} from './spells/spell.js';
 
 class HunterSim extends Component {
 
@@ -10,6 +12,9 @@ class HunterSim extends Component {
 
         this.state = {
             simout: [],
+            total_dmg: 0,
+            dps: 0,
+            simlength: 100,
             hawk: 0,
             mark: 0,
             lethal: 0,
@@ -41,27 +46,44 @@ class HunterSim extends Component {
     runSim = () => {
         let autoshot = new Autoshot(this.props.character.weapons.ranged);
         let aimedshot = new AimedShot();
-        for (let i = 0; i < 1000; i++) {
+        let multishot = new Multishot();
+        let simlength = this.state.simlength*TPS;
+        let total_dmg = 0;
+        for (let i = 0; i < simlength; i++) {
             // try and cast all abilities
             if (autoshot.cast()) {
                 // does not trigger GCD
             }
 
             if (aimedshot.cast()) {
-                // triggers GCD in other abilities
+                multishot.activate_gcd();
             }
+
+            if (multishot.cast()) {
+                aimedshot.activate_gcd();
+            }
+
+            let ts = i/TPS;
 
             // then advance the simulation one step
             let simout = this.state.simout;
             if (autoshot.tick()) {
-                let dmg = autoshot.apply_effect(this.props.character, this.state)
-                simout.push(<div>{i} Autoshot hit for {Math.round(dmg)}</div>);
+                let dmg = autoshot.apply_effect(this.props.character, this.state);
+                simout.push(<div>{ts} Autoshot hit for {Math.round(dmg)}</div>);
+                total_dmg += dmg;
             }
             if (aimedshot.tick()) {
-                let dmg = aimedshot.apply_effect(this.props.character, this.state)
-                simout.push(<div>{i} Aimed Shot hit for {Math.round(dmg)}</div>);
+                let dmg = aimedshot.apply_effect(this.props.character, this.state);
+                simout.push(<div>{ts} Aimed Shot hit for {Math.round(dmg)}</div>);
+                total_dmg += dmg;
             }
-            this.setState({simout: simout});
+            if (multishot.tick()) {
+                let dmg = multishot.apply_effect(this.props.character, this.state);
+                simout.push(<div>{ts} Multi Shot hit for {Math.round(dmg)}</div>);
+                total_dmg += dmg;
+            }
+            let dps = total_dmg / ts;
+            this.setState({simout: simout, total_dmg: total_dmg, dps: dps});
 
         }
     }
@@ -124,6 +146,8 @@ class HunterSim extends Component {
             <Button key="start" variant="primary" onClick={this.runSim} >
                 Start
             </Button>
+            <div>Total Damage: {Math.round(this.state.total_dmg)}
+                &nbsp; DPS: {Math.round(this.state.dps)}</div>
             <Jumbotron>
                 {this.state.simout}
             </Jumbotron>
