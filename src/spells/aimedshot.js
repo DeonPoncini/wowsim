@@ -1,15 +1,14 @@
 import Spell from './spell';
 import * as hunter from './hunter.js';
 
-class Autoshot extends Spell {
+class AimedShot extends Spell {
 
-    constructor(ranged) {
-        let cooldown = ranged.weapon.speed;
-        super(0, cooldown);
+    constructor() {
+        super(3, 6);
     }
 
     apply_effect(character, mods) {
-        let speed = character.weapons.ranged.weapon.speed;
+        let speed = 2.8;
         let ammo_dps = character.weapons.ammo.weapon.dmgmax;
         let rap = character.stats.attack.rap;
 
@@ -19,9 +18,9 @@ class Autoshot extends Spell {
         let total_rap = rap + rap_mod;
         let dmg = hunter.random_weapon_damage(character);
 
-        return dmg_mod*(ammo_dps*speed + total_rap/14*speed + dmg);
+        return dmg_mod*(ammo_dps*speed + total_rap/14*speed + dmg + 600);
     }
 
 }
 
-export default Autoshot;
+export default AimedShot;

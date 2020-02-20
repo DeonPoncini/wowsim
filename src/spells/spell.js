@@ -6,7 +6,8 @@ class Spell {
         this.timer = 0;
         this.gcd = 0;
         this.cast_time = cast_time*TPS;
-        this.cooldown = this.cast_time + cooldown*TPS;
+        this.cooldown = Math.round(this.cast_time + cooldown*TPS);
+        console.log(this.cooldown);
         this.casting = false;
     }
 
@@ -19,6 +20,7 @@ class Spell {
     tick() {
         if (this.casting) {
             if (this.timer === this.cast_time) {
+                this.timer += 1;
                 // we can activate the spell
                 return true;
             }
@@ -26,8 +28,9 @@ class Spell {
                 // spell is over we are done casting
                 this.casting = false;
                 this.timer = 0;
+            } else {
+                this.timer += 1;
             }
-            this.timer += 1;
         }
         if (this.gcd !== 0) {
             if (this.timer === this.gcd) {
@@ -51,7 +54,6 @@ class Spell {
         }
         // we can cast the spell
         this.casting = true;
-        this.timer = 0;
         return true;
     }
 

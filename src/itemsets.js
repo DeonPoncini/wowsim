@@ -25,7 +25,6 @@ function giantstalker(selected) {
     if (Head[selected.head].name === "Giantstalker's Helmet") { count++; }
     if (Legs[selected.legs].name === "Giantstalker's Leggings") { count++; }
     ret.push("Giantstalker Armor");
-    console.log(count);
     if (count === 8) {
         ret.push(8);
         return ret;

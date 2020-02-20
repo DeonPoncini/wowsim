@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Button, Col, Form} from 'react-bootstrap';
+import {Button, Col, Form, Jumbotron} from 'react-bootstrap';
 import Autoshot from './spells/autoshot.js';
+import AimedShot from './spells/aimedshot.js';
 
 class HunterSim extends Component {
 
@@ -8,6 +9,7 @@ class HunterSim extends Component {
         super(props);
 
         this.state = {
+            simout: [],
             hawk: 0,
             mark: 0,
             lethal: 0,
@@ -38,17 +40,29 @@ class HunterSim extends Component {
 
     runSim = () => {
         let autoshot = new Autoshot(this.props.character.weapons.ranged);
+        let aimedshot = new AimedShot();
         for (let i = 0; i < 1000; i++) {
             // try and cast all abilities
             if (autoshot.cast()) {
                 // does not trigger GCD
             }
 
+            if (aimedshot.cast()) {
+                // triggers GCD in other abilities
+            }
+
             // then advance the simulation one step
+            let simout = this.state.simout;
             if (autoshot.tick()) {
                 let dmg = autoshot.apply_effect(this.props.character, this.state)
-                console.log(dmg);
+                simout.push(<div>{i} Autoshot hit for {Math.round(dmg)}</div>);
             }
+            if (aimedshot.tick()) {
+                let dmg = aimedshot.apply_effect(this.props.character, this.state)
+                simout.push(<div>{i} Aimed Shot hit for {Math.round(dmg)}</div>);
+            }
+            this.setState({simout: simout});
+
         }
     }
 
@@ -110,6 +124,9 @@ class HunterSim extends Component {
             <Button key="start" variant="primary" onClick={this.runSim} >
                 Start
             </Button>
+            <Jumbotron>
+                {this.state.simout}
+            </Jumbotron>
             </div>
         );
     }
