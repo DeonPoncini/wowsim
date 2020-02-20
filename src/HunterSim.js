@@ -21,6 +21,7 @@ class HunterSim extends Component {
             killer: 0,
             lightning: 0,
             giantstalker: 0,
+            dragonstalker: 0,
         }
     }
 
@@ -31,6 +32,8 @@ class HunterSim extends Component {
         // try and detect set bonus modifiers
         let gs = this.props.sets.get('Giantstalker Armor');
         this.setState({giantstalker: gs});
+        let ds = this.props.sets.get('Dragonstalker Armor');
+        this.setState({dragonstalker: ds});
     }
 
     runSim = () => {
@@ -43,7 +46,8 @@ class HunterSim extends Component {
 
             // then advance the simulation one step
             if (autoshot.tick()) {
-                autoshot.apply_effect(this.props.character, this.state)
+                let dmg = autoshot.apply_effect(this.props.character, this.state)
+                console.log(dmg);
             }
         }
     }

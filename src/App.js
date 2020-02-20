@@ -14,7 +14,7 @@ class App extends Component {
         this.state = {
             character: {clazz: "", race: "", health: 0, mana: 0,
                 stats: NoneItem, weapons: {main: NoneItem,
-                    off: NoneItem, ranged: NoneItem}},
+                    off: NoneItem, ranged: NoneItem, ammo: NoneItem}},
             sets: new Map(),
         };
     }

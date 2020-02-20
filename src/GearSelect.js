@@ -185,7 +185,6 @@ class GearSelect extends Component {
         off = this.add_gear(off, WeaponEnchants, this.state.offhandenchant);
         let ranged = JSON.parse(JSON.stringify(Ranged[this.state.ranged]));
         ranged = this.add_gear(ranged, RangedEnchants, this.state.rangedenchant);
-        ranged = this.add_gear(ranged, Ammo, this.state.ammo);
         // multiply by the pouch speed
         ranged.weapon.speed -= (ranged.weapon.speed*
             Pouch[this.state.pouch].weapon.speed);
@@ -193,6 +192,7 @@ class GearSelect extends Component {
             main: main,
             off: off,
             ranged: ranged,
+            ammo: Ammo[this.state.ammo],
         };
 
         // check the set bonuses
