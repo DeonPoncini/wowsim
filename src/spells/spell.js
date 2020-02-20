@@ -55,7 +55,7 @@ class Spell {
         return true;
     }
 
-    apply_effect(character) {
+    apply_effect(character, mods) {
         return 0;
     }
 

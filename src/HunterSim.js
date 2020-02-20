@@ -43,7 +43,7 @@ class HunterSim extends Component {
 
             // then advance the simulation one step
             if (autoshot.tick()) {
-                autoshot.apply_effect(this.props.character)
+                autoshot.apply_effect(this.props.character, this.state)
             }
         }
     }
