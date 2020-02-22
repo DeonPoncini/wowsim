@@ -9,6 +9,13 @@ export const Shoulders = [
         new gear.Resistances(0, 0, 0, 0, 7),
         new gear.DefenseStats(317, 0, 0, 0, 0),
         gear.WeaponZero),
+    new gear.Item("Dragonstalker's Spaulders",
+        new gear.BaseStats(0, 23, 13, 15, 6),
+        new gear.AttackStats(1, 0, 0, 0),
+        gear.CasterZero,
+        new gear.Resistances(10, 0, 0, 0, 0),
+        new gear.DefenseStats(362, 0, 0, 0, 0),
+        gear.WeaponZero),
 ];
 
 export const ShoulderEnchants = [

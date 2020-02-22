@@ -9,6 +9,13 @@ export const Hands = [
         new gear.Resistances(7, 0, 0, 0, 0),
         new gear.DefenseStats(264, 0, 0, 0, 0),
         gear.WeaponZero),
+    new gear.Item("Dragonstalker's Gauntlets",
+        new gear.BaseStats(0, 20, 13, 17, 6),
+        new gear.AttackStats(0, 1, 0, 0),
+        gear.CasterZero,
+        new gear.Resistances(0, 0, 0, 0, 10),
+        new gear.DefenseStats(301, 0, 0, 0, 0),
+        gear.WeaponZero),
 ];
 
 export const HandEnchants = [

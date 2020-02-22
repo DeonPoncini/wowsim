@@ -9,6 +9,13 @@ export const Legs = [
         new gear.Resistances(0, 0, 0, 0, 10),
         new gear.DefenseStats(369, 0, 0, 0, 0),
         gear.WeaponZero),
+    new gear.Item("Dragonstalker's Legguards",
+        new gear.BaseStats(0, 31, 15, 16, 8),
+        new gear.AttackStats(1, 1, 0, 0),
+        gear.CasterZero,
+        new gear.Resistances(10, 0, 10, 0, 0),
+        new gear.DefenseStats(422, 0, 0, 0, 0),
+        gear.WeaponZero),
 ];
 
 export const LegEnchants = [

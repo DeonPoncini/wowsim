@@ -9,6 +9,13 @@ export const Wrists = [
         gear.ResistanceZero,
         new gear.DefenseStats(185, 0, 0, 0, 0),
         gear.WeaponZero),
+    new gear.Item("Dragonstalker's Bracers",
+        new gear.BaseStats(0, 23, 6, 13, 6),
+        gear.AttackZero,
+        gear.CasterZero,
+        gear.ResistanceZero,
+        new gear.DefenseStats(211, 0, 0, 0, 0),
+        gear.WeaponZero),
 ];
 
 export const WristEnchants = [
