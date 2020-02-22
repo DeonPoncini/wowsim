@@ -2,7 +2,7 @@ import * as gear from './gear'
 
 export const Shoulders = [
     gear.NoneItem,
-    new gear.Item("Gianstalker's Epaulets",
+    new gear.Item("Giantstalker's Epaulets",
         new gear.BaseStats(0, 24, 5, 14, 9),
         new gear.AttackStats(1, 0, 0, 0),
         gear.CasterZero,

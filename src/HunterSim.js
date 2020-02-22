@@ -130,20 +130,20 @@ class HunterSim extends Component {
         }
     }
 
-    hawkChange = (event) => { this.setState({imphawk: event.target.value}); }
-    imphawkChange = (event) => { this.setState({imphawk: event.target.value}); }
-    markChange = (event) => { this.setState({mark: event.target.value}); }
-    lethalChange = (event) => { this.setState({lethal: event.target.value}); }
-    aimedChange = (event) => { this.setState({aimed: event.target.value}); }
-    mortalChange = (event) => { this.setState({mortal: event.target.value}); }
-    barrageChange = (event) => { this.setState({barrage: event.target.value}); }
-    rwsChange = (event) => { this.setState({rws: event.target.value}); }
-    tsaChange = (event) => { this.setState({tsa: event.target.value}); }
-    slayingChange = (event) => { this.setState({slaying: event.target.value}); }
+    hawkChange = (event) => { this.setState({imphawk: parseInt(event.target.value)}); }
+    imphawkChange = (event) => { this.setState({imphawk: parseInt(event.target.value)}); }
+    markChange = (event) => { this.setState({mark: parseInt(event.target.value)}); }
+    lethalChange = (event) => { this.setState({lethal: parseInt(event.target.value)}); }
+    aimedChange = (event) => { this.setState({aimed: parseInt(event.target.value)}); }
+    mortalChange = (event) => { this.setState({mortal: parseInt(event.target.value)}); }
+    barrageChange = (event) => { this.setState({barrage: parseInt(event.target.value)}); }
+    rwsChange = (event) => { this.setState({rws: parseInt(event.target.value)}); }
+    tsaChange = (event) => { this.setState({tsa: parseInt(event.target.value)}); }
+    slayingChange = (event) => { this.setState({slaying: parseInt(event.target.value)}); }
     surefootedChange = (event) =>
-        { this.setState({surefooted: event.target.value}); }
-    killerChange = (event) => { this.setState({killer: event.target.value}); }
-    lightningChange = (event) => { this.setState({lightning: event.target.value}); }
+        { this.setState({surefooted: parseInt(event.target.value)}); }
+    killerChange = (event) => { this.setState({killer: parseInt(event.target.value)}); }
+    lightningChange = (event) => { this.setState({lightning: parseInt(event.target.value)}); }
 
     optionForm = (text, callback, count, span=1) => {
         let options = [];
@@ -169,6 +169,8 @@ class HunterSim extends Component {
             <div key="simulator">
             {this.state.giantstalker === 8 &&
                 <div>Giantstalker Armor 8 set bonus detected</div>}
+            {this.state.dragonstalker >= 3 &&
+                <div>Dragonstalker Armor 3 set bonus detected</div>}
             <Form>
                 {this.optionForm("Aspect of the Hawk", this.hawkChange, 1)}
                 {this.optionForm("Improved Aspect of the Hawk",
