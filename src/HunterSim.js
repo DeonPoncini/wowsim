@@ -17,6 +17,7 @@ class HunterSim extends Component {
             dps: 0,
             simlength: 100,
             hawk: 0,
+            imphawk: 0,
             mark: 0,
             lethal: 0,
             aimed: 0,
@@ -129,7 +130,8 @@ class HunterSim extends Component {
         }
     }
 
-    hawkChange = (event) => { this.setState({hawk: event.target.value}); }
+    hawkChange = (event) => { this.setState({imphawk: event.target.value}); }
+    imphawkChange = (event) => { this.setState({imphawk: event.target.value}); }
     markChange = (event) => { this.setState({mark: event.target.value}); }
     lethalChange = (event) => { this.setState({lethal: event.target.value}); }
     aimedChange = (event) => { this.setState({aimed: event.target.value}); }
@@ -168,8 +170,9 @@ class HunterSim extends Component {
             {this.state.giantstalker === 8 &&
                 <div>Giantstalker Armor 8 set bonus detected</div>}
             <Form>
+                {this.optionForm("Aspect of the Hawk", this.hawkChange, 1)}
                 {this.optionForm("Improved Aspect of the Hawk",
-                    this.hawkChange, 5)}
+                    this.impHawkChange, 5)}
                 {this.optionForm("Improved Hunter's Mark",
                     this.markChange, 5, 3)}
                 {this.optionForm("Lethal Shots", this.lethalChange, 5)}

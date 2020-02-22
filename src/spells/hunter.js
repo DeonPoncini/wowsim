@@ -21,6 +21,12 @@ export function rap_modifier(agility, mods) {
 
     let agi_rap = data.rap_per_agi.get(data.clazz.HUNTER)*agi;
 
+    let ds = 1;
+    if (mods.dragonstalker >= 3) {
+        ds = 1.2;
+    }
+    let hawk_mod = 120*ds*mods.hawk;
+
     // improved hunters mark increases hunter's mark bonus by x%
     let mark_mod = 1 + mods.mark/100;
     let hunters_mark = 110*mark_mod;
@@ -29,7 +35,7 @@ export function rap_modifier(agility, mods) {
     let tsa_mod = 100*mods.tsa;
 
     // return rap modifiers
-    return hunters_mark + tsa_mod + agi_rap;
+    return hunters_mark + tsa_mod + agi_rap + hawk_mod;
 }
 
 export function ranged_damage_modifier(mods) {
