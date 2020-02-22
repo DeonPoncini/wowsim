@@ -30,6 +30,7 @@ class HunterSim extends Component {
             giantstalker: 0,
             dragonstalker: 0,
         }
+
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -49,29 +50,24 @@ class HunterSim extends Component {
         let multishot = new Multishot();
         let simlength = this.state.simlength*TPS;
         let total_dmg = 0;
+        this.setState({simout: []});
         for (let i = 0; i < simlength; i++) {
             // try and cast all abilities
-            if (autoshot.cast()) {
-                // does not trigger GCD
-            }
 
             if (aimedshot.cast()) {
                 multishot.activate_gcd();
             }
-
             if (multishot.cast()) {
                 aimedshot.activate_gcd();
+            }
+            if (autoshot.cast()) {
+                // does not trigger GCD
             }
 
             let ts = i/TPS;
 
             // then advance the simulation one step
             let simout = this.state.simout;
-            if (autoshot.tick()) {
-                let dmg = autoshot.apply_effect(this.props.character, this.state);
-                simout.push(<div>{ts} Autoshot hit for {Math.round(dmg)}</div>);
-                total_dmg += dmg;
-            }
             if (aimedshot.tick()) {
                 let dmg = aimedshot.apply_effect(this.props.character, this.state);
                 simout.push(<div>{ts} Aimed Shot hit for {Math.round(dmg)}</div>);
@@ -80,6 +76,11 @@ class HunterSim extends Component {
             if (multishot.tick()) {
                 let dmg = multishot.apply_effect(this.props.character, this.state);
                 simout.push(<div>{ts} Multi Shot hit for {Math.round(dmg)}</div>);
+                total_dmg += dmg;
+            }
+            if (autoshot.tick()) {
+                let dmg = autoshot.apply_effect(this.props.character, this.state);
+                simout.push(<div>{ts} Autoshot hit for {Math.round(dmg)}</div>);
                 total_dmg += dmg;
             }
             let dps = total_dmg / ts;

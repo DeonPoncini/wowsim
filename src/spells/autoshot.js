@@ -4,8 +4,8 @@ import * as hunter from './hunter.js';
 class Autoshot extends Spell {
 
     constructor(ranged) {
-        let cooldown = ranged.weapon.speed;
-        super(0, cooldown);
+        let cast = ranged.weapon.speed;
+        super(cast, 0);
     }
 
     apply_effect(character, mods) {

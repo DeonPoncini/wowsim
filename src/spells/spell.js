@@ -5,7 +5,7 @@ class Spell {
     constructor(cast_time, cooldown) {
         this.timer = 0;
         this.gcd = 0;
-        this.cast_time = cast_time*TPS;
+        this.cast_time = Math.round(cast_time*TPS);
         this.cooldown = Math.round(this.cast_time + cooldown*TPS);
         this.casting = false;
     }
@@ -23,7 +23,7 @@ class Spell {
                 // we can activate the spell
                 return true;
             }
-            if (this.timer === this.cooldown) {
+            if (this.timer >= this.cooldown) {
                 // spell is over we are done casting
                 this.casting = false;
                 this.timer = 0;
