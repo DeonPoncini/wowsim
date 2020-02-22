@@ -45,9 +45,9 @@ class HunterSim extends Component {
         this.setState({dragonstalker: ds});
     }
 
-    calculateOutput = (spell, dmg) => {
-        // calculate hit chance
-        let hitpct = this.props.character.stats.attack.hit;
+    calculateOutput = (spell, dmg, mods) => {
+        // calculate hit chance including surefooted
+        let hitpct = this.props.character.stats.attack.hit + mods.surefooted;
         let totalhit = data.lvl63_base_hit_rate + hitpct;
         if (totalhit > 100) {
             totalhit = 100;
@@ -69,7 +69,10 @@ class HunterSim extends Component {
             return {message: spell + " hit for " + Math.round(dmg), dmg: dmg};
         } else {
             // we crit
-            let critdmg = data.melee_crit_multiplier*dmg;
+            let slaying_mod = 1 + mods.slaying/100;
+            let mortal_mod = mods.mortal/100;
+            let critdmg = (data.melee_crit_multiplier + mortal_mod)*
+                dmg*slaying_mod;
             return {message: spell + " crit for " + Math.round(critdmg),
                 dmg: critdmg};
         }
@@ -100,19 +103,19 @@ class HunterSim extends Component {
             // then advance the simulation one step
             if (aimedshot.tick()) {
                 let dmg = aimedshot.apply_effect(this.props.character, this.state);
-                let out = this.calculateOutput("Aimed Shot", dmg);
+                let out = this.calculateOutput("Aimed Shot", dmg, this.state);
                 simout.push(<div>{ts} {out.message}</div>);
                 total_dmg += out.dmg;
             }
             if (multishot.tick()) {
                 let dmg = multishot.apply_effect(this.props.character, this.state);
-                let out = this.calculateOutput("Multi Shot", dmg);
+                let out = this.calculateOutput("Multi Shot", dmg, this.state);
                 simout.push(<div>{ts} {out.message}</div>);
                 total_dmg += out.dmg;
             }
             if (autoshot.tick()) {
                 let dmg = autoshot.apply_effect(this.props.character, this.state);
-                let out = this.calculateOutput("Autoshot", dmg);
+                let out = this.calculateOutput("Autoshot", dmg, this.state);
                 simout.push(<div>{ts} {out.message}</div>);
                 total_dmg += out.dmg;
             }
