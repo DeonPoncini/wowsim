@@ -59,7 +59,8 @@ class HunterSim extends Component {
         }
 
         // calculate crit chance
-        let critpct = this.props.character.stats.attack.crit + mods.killer;
+        let critpct = this.props.character.stats.attack.crit + mods.killer
+            + mods.lethal;
         if (critpct > 100) {
             critpct = 100;
         }
