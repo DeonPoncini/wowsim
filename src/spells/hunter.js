@@ -1,3 +1,5 @@
+import * as data from '../data.js';
+
 export function average_weapon_damage(character) {
     let dmgmin = character.weapons.ranged.weapon.dmgmin;
     let dmgmax = character.weapons.ranged.weapon.dmgmax;
@@ -13,7 +15,12 @@ export function random_weapon_damage(character) {
     return dmg;
 }
 
-export function rap_modifier(mods) {
+export function rap_modifier(agility, mods) {
+    let lightning_mod = 1 + mods.lightning/100;
+    let agi = agility*lightning_mod;
+
+    let agi_rap = data.rap_per_agi.get(data.clazz.HUNTER)*agi;
+
     // improved hunters mark increases hunter's mark bonus by x%
     let mark_mod = 1 + mods.mark/100;
     let hunters_mark = 110*mark_mod;
@@ -22,7 +29,7 @@ export function rap_modifier(mods) {
     let tsa_mod = 100*mods.tsa;
 
     // return rap modifiers
-    return hunters_mark + tsa_mod;
+    return hunters_mark + tsa_mod + agi_rap;
 }
 
 export function ranged_damage_modifier(mods) {

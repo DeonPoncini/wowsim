@@ -59,7 +59,7 @@ class HunterSim extends Component {
         }
 
         // calculate crit chance
-        let critpct = this.props.character.stats.attack.crit;
+        let critpct = this.props.character.stats.attack.crit + mods.killer;
         if (critpct > 100) {
             critpct = 100;
         }
@@ -88,9 +88,10 @@ class HunterSim extends Component {
         let simout = [];
         for (let i = 0; i < simlength; i++) {
             // try and cast all abilities
-
-            if (aimedshot.cast()) {
-                multishot.activate_gcd();
+            if (this.state.aimed !== 0) {
+                if (aimedshot.cast()) {
+                    multishot.activate_gcd();
+                }
             }
             if (multishot.cast()) {
                 aimedshot.activate_gcd();
@@ -101,11 +102,14 @@ class HunterSim extends Component {
 
             let ts = i/TPS;
             // then advance the simulation one step
-            if (aimedshot.tick()) {
-                let dmg = aimedshot.apply_effect(this.props.character, this.state);
-                let out = this.calculateOutput("Aimed Shot", dmg, this.state);
-                simout.push(<div>{ts} {out.message}</div>);
-                total_dmg += out.dmg;
+            if (this.state.aimed !== 0) {
+                if (aimedshot.tick()) {
+                    let dmg = aimedshot.apply_effect(this.props.character,
+                        this.state);
+                    let out = this.calculateOutput("Aimed Shot", dmg, this.state);
+                    simout.push(<div>{ts} {out.message}</div>);
+                    total_dmg += out.dmg;
+                }
             }
             if (multishot.tick()) {
                 let dmg = multishot.apply_effect(this.props.character, this.state);
@@ -177,7 +181,7 @@ class HunterSim extends Component {
                 {this.optionForm("Monster Slaying", this.slayingChange, 3)}
                 {this.optionForm("Surefooted", this.surefootedChange, 3)}
                 {this.optionForm("Killer Instinct", this.killerChange, 3)}
-                {this.optionForm("Lightning Reflexes", this.killerChange, 5, 3)}
+                {this.optionForm("Lightning Reflexes", this.lightningChange, 5, 3)}
             </Form>
             <Button key="start" variant="primary" onClick={this.runSim} >
                 Start

@@ -13,7 +13,7 @@ class Autoshot extends Spell {
         let ammo_dps = character.weapons.ammo.weapon.dmgmax;
         let rap = character.stats.attack.rap;
 
-        let rap_mod = hunter.rap_modifier(mods);
+        let rap_mod = hunter.rap_modifier(character.stats.base.agility, mods);
         let dmg_mod = hunter.ranged_damage_modifier(mods);
 
         let total_rap = rap + rap_mod;
