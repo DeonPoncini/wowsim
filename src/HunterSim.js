@@ -4,6 +4,7 @@ import Autoshot from './spells/autoshot.js';
 import AimedShot from './spells/aimedshot.js';
 import Multishot from './spells/multishot.js';
 import {TPS} from './spells/spell.js';
+import * as data from './data.js';
 
 class HunterSim extends Component {
 
@@ -44,13 +45,44 @@ class HunterSim extends Component {
         this.setState({dragonstalker: ds});
     }
 
+    calculateOutput = (spell, dmg) => {
+        // calculate hit chance
+        let hitpct = this.props.character.stats.attack.hit;
+        let totalhit = data.lvl63_base_hit_rate + hitpct;
+        if (totalhit > 100) {
+            totalhit = 100;
+        }
+        let hit = Math.random()*100;
+        if (hit > totalhit) {
+            // we missed
+            return {message: spell + " missed", dmg: 0};
+        }
+
+        // calculate crit chance
+        let critpct = this.props.character.stats.attack.crit;
+        if (critpct > 100) {
+            critpct = 100;
+        }
+        let crit = Math.random()*100;
+        if (crit > critpct) {
+            // we did not crit
+            return {message: spell + " hit for " + Math.round(dmg), dmg: dmg};
+        } else {
+            // we crit
+            let critdmg = data.melee_crit_multiplier*dmg;
+            return {message: spell + " crit for " + Math.round(critdmg),
+                dmg: critdmg};
+        }
+    }
+
+
     runSim = () => {
         let autoshot = new Autoshot(this.props.character.weapons.ranged);
         let aimedshot = new AimedShot();
         let multishot = new Multishot();
         let simlength = this.state.simlength*TPS;
         let total_dmg = 0;
-        this.setState({simout: []});
+        let simout = [];
         for (let i = 0; i < simlength; i++) {
             // try and cast all abilities
 
@@ -65,27 +97,27 @@ class HunterSim extends Component {
             }
 
             let ts = i/TPS;
-
             // then advance the simulation one step
-            let simout = this.state.simout;
             if (aimedshot.tick()) {
                 let dmg = aimedshot.apply_effect(this.props.character, this.state);
-                simout.push(<div>{ts} Aimed Shot hit for {Math.round(dmg)}</div>);
-                total_dmg += dmg;
+                let out = this.calculateOutput("Aimed Shot", dmg);
+                simout.push(<div>{ts} {out.message}</div>);
+                total_dmg += out.dmg;
             }
             if (multishot.tick()) {
                 let dmg = multishot.apply_effect(this.props.character, this.state);
-                simout.push(<div>{ts} Multi Shot hit for {Math.round(dmg)}</div>);
-                total_dmg += dmg;
+                let out = this.calculateOutput("Multi Shot", dmg);
+                simout.push(<div>{ts} {out.message}</div>);
+                total_dmg += out.dmg;
             }
             if (autoshot.tick()) {
                 let dmg = autoshot.apply_effect(this.props.character, this.state);
-                simout.push(<div>{ts} Autoshot hit for {Math.round(dmg)}</div>);
-                total_dmg += dmg;
+                let out = this.calculateOutput("Autoshot", dmg);
+                simout.push(<div>{ts} {out.message}</div>);
+                total_dmg += out.dmg;
             }
             let dps = total_dmg / ts;
             this.setState({simout: simout, total_dmg: total_dmg, dps: dps});
-
         }
     }
 
